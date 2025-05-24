@@ -3,7 +3,7 @@
 
 ## 🚀 Live Demo
 
-**Frontend**: [https://vercel.com/spammersday-gmailcoms-projects/v0-ai-health-monitoring-app](https://vercel.com/spammersday-gmailcoms-projects/v0-ai-health-monitoring-app)
+**Frontend**: 
 
 ## 📱 Features
 
@@ -103,35 +103,7 @@ echo "NEXT_PUBLIC_API_URL=http://localhost:8000/api" > .env.local
 npm run dev
 \`\`\`
 
-### **3. Backend Setup**
-\`\`\`bash
-# Create separate backend directory
-mkdir cardiocare-backend
-cd cardiocare-backend
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install Django and dependencies
-pip install django djangorestframework django-cors-headers
-pip install google-auth google-auth-oauthlib google-api-python-client
-pip install twilio openai requests python-decouple celery redis
-
-# Create Django project
-django-admin startproject cardiocare .
-python manage.py startapp accounts
-python manage.py startapp health_monitoring
-python manage.py startapp emergency_system
-
-# Run migrations
-python manage.py migrate
-
-# Start Django server
-python manage.py runserver
-\`\`\`
-
-### **4. Environment Variables**
+### **3. Environment Variables**
 
 **Frontend (.env.local)**
 \`\`\`env
@@ -252,32 +224,8 @@ graph TD
 - **No Data Selling** - Your health data is never sold or shared
 - **Local Processing** - Sensitive data processed locally when possible
 
-## 🚀 Deployment
-
-### **Frontend (Vercel)**
-\`\`\`bash
-# Deploy to Vercel
-vercel --prod
-
 # Set environment variables in Vercel dashboard
 NEXT_PUBLIC_API_URL=https://your-backend-domain.com/api
-\`\`\`
-
-### **Backend (Railway/Heroku)**
-\`\`\`bash
-# Deploy to Railway
-railway login
-railway init
-railway add postgresql
-railway deploy
-
-# Or deploy to Heroku
-heroku create cardiocare-backend
-heroku addons:create heroku-postgresql:hobby-dev
-heroku addons:create heroku-redis:hobby-dev
-git push heroku main
-\`\`\`
-
 
 ## 🙏 Acknowledgments
 
