@@ -83,23 +83,6 @@
 - **Twilio API** - WhatsApp messaging and voice calls
 - **Google OAuth 2.0** - Secure authentication
 
-## Overview
-
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
-
-## Deployment
-
-Your project is live at:
-
-**[https://vercel.com/spammersday-gmailcoms-projects/v0-ai-health-monitoring-app](https://vercel.com/spammersday-gmailcoms-projects/v0-ai-health-monitoring-app)**
-
-## Build your app
-
-Continue building your app on:
-
-**[https://v0.dev/chat/projects/3fEqx83Mblj](https://v0.dev/chat/projects/3fEqx83Mblj)**
-
 ## 🚀 Quick Start
 
 ### **1. Clone the Repository**
