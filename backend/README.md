@@ -85,7 +85,7 @@ GOOGLE_OAUTH2_CLIENT_SECRET=your-google-oauth-client-secret
 - ✅ Admin interface for data management
 \`\`\`
 
-```gitignore file="backend/.gitignore"
+\`\`\`gitignore file="backend/.gitignore"
 # Django
 *.log
 *.pot
