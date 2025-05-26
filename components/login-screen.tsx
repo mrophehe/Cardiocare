@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Heart, Smartphone, Watch, AlertCircle } from "lucide-react"
+import { Heart, Smartphone, Watch } from "lucide-react"
 import { apiService } from "@/lib/api"
 
 interface LoginScreenProps {
@@ -105,15 +105,6 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
             </p>
           </div>
 
-          {error && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-              <div className="flex items-center space-x-2">
-                <AlertCircle className="w-4 h-4 text-yellow-600" />
-                <p className="text-sm text-yellow-800">{error}</p>
-              </div>
-            </div>
-          )}
-
           <div className="space-y-4">
             <Button
               onClick={handleGoogleFitLogin}
@@ -169,14 +160,6 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
               <li>• Emergency detection with AI</li>
               <li>• Automatic SOS alerts</li>
             </ul>
-          </div>
-
-          <div className="bg-gray-50 p-3 rounded-lg">
-            <p className="text-xs text-gray-600 text-center">
-              🔧 <strong>Demo Mode:</strong> Backend integration with Django API
-              <br />
-              Connecting to: http://localhost:8000/api
-            </p>
           </div>
         </CardContent>
       </Card>

@@ -104,6 +104,26 @@ class APIService {
     return response.json()
   }
 
+  // Health History endpoints
+  async getHealthHistoryMessages() {
+    const response = await fetch(`${API_BASE_URL}/health/history/messages/`, {
+      headers: this.getAuthHeaders(),
+    })
+    return response.json()
+  }
+
+  async sendHealthHistoryMessage(content: string, attachments: any[] = []) {
+    const response = await fetch(`${API_BASE_URL}/health/history/send/`, {
+      method: "POST",
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify({
+        content: content,
+        attachments: attachments,
+      }),
+    })
+    return response.json()
+  }
+
   // Emergency endpoints
   async triggerEmergencyAlert(emergencyType: string, patientData: any, location: string) {
     const response = await fetch(`${API_BASE_URL}/emergency/alert/`, {
@@ -126,7 +146,16 @@ class APIService {
   }
 
   async addEmergencyContact(contactData: any) {
-    const response = await fetch(`${API_BASE_URL}/emergency/contacts/`, {
+    const response = await fetch(`${API_BASE_URL}/emergency/contacts/add/`, {
+      method: "POST",
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify(contactData),
+    })
+    return response.json()
+  }
+
+  async updateEmergencyContact(contactId: number, contactData: any) {
+    const response = await fetch(`${API_BASE_URL}/emergency/contacts/${contactId}/update/`, {
       method: "POST",
       headers: this.getAuthHeaders(),
       body: JSON.stringify(contactData),

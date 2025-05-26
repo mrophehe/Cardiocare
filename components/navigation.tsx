@@ -6,7 +6,7 @@ interface NavigationProps {
 }
 
 export default function Navigation({ activeTab, setActiveTab }: NavigationProps) {
-  const tabs = ["ECG Monitor", "Health Metrics", "Alert History", "Emergency Contacts"]
+  const tabs = ["ECG Monitor", "Health Metrics", "Alert History", "Emergency Contacts", "Health History"]
 
   return (
     <nav className="bg-white border-b">

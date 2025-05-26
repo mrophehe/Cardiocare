@@ -3,54 +3,69 @@
 import { useState, useEffect } from "react"
 import LoginScreen from "@/components/login-screen"
 import Dashboard from "@/components/dashboard"
-import BackendStatus from "@/components/backend-status"
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     // Check if user is already authenticated
-    const token = localStorage.getItem("access_token")
-    const userData = localStorage.getItem("user_data")
+    try {
+      const token = localStorage.getItem("access_token")
+      const userData = localStorage.getItem("user_data")
 
-    if (token && userData) {
-      setUser(JSON.parse(userData))
-      setIsAuthenticated(true)
+      if (token && userData) {
+        const parsedUser = JSON.parse(userData)
+        setUser(parsedUser)
+        setIsAuthenticated(true)
+      }
+    } catch (error) {
+      console.error("Error loading user data:", error)
+      // Clear invalid data
+      localStorage.removeItem("access_token")
+      localStorage.removeItem("user_data")
+    } finally {
+      setIsLoading(false)
     }
   }, [])
 
   const handleLogin = (userData: any, token: string) => {
-    localStorage.setItem("access_token", token)
-    localStorage.setItem("user_data", JSON.stringify(userData))
-    setUser(userData)
-    setIsAuthenticated(true)
+    try {
+      localStorage.setItem("access_token", token)
+      localStorage.setItem("user_data", JSON.stringify(userData))
+      setUser(userData)
+      setIsAuthenticated(true)
+    } catch (error) {
+      console.error("Error saving user data:", error)
+    }
   }
 
   const handleLogout = () => {
-    localStorage.removeItem("access_token")
-    localStorage.removeItem("user_data")
-    setUser(null)
-    setIsAuthenticated(false)
+    try {
+      localStorage.removeItem("access_token")
+      localStorage.removeItem("user_data")
+      setUser(null)
+      setIsAuthenticated(false)
+    } catch (error) {
+      console.error("Error during logout:", error)
+    }
   }
 
-  if (!isAuthenticated) {
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <BackendStatus />
-          <LoginScreen onLogin={handleLogin} />
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading CardioCare...</p>
         </div>
       </div>
     )
   }
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto p-4">
-        <BackendStatus />
-      </div>
-      <Dashboard user={user} onLogout={handleLogout} />
-    </div>
-  )
+  if (!isAuthenticated) {
+    return <LoginScreen onLogin={handleLogin} />
+  }
+
+  return <Dashboard user={user} onLogout={handleLogout} />
 }

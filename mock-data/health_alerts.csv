@@ -1,0 +1,6 @@
+id,user_id,alert_type,title,message,status,severity,ai_analysis_id,emergency_call_initiated,contacts_notified,created_at,resolved_at
+1,1,emergency,"Critical Health Alert","Abnormal QRS complex detected - Potential arrhythmia",active,high,1,true,true,2024-01-24T14:30:22Z,null
+2,1,warning,"Elevated Heart Rate","Elevated heart rate detected during rest period",resolved,medium,2,false,false,2024-01-24T12:15:10Z,2024-01-24T12:45:10Z
+3,1,emergency,"Blood Pressure Spike","Blood pressure spike detected - Hypertensive crisis",resolved,high,null,true,true,2024-01-23T19:45:33Z,2024-01-23T20:15:33Z
+4,1,warning,"SpO2 Low","SpO2 levels below normal range",resolved,medium,null,false,false,2024-01-23T16:22:15Z,2024-01-23T16:45:15Z
+5,1,info,"Daily Summary","Daily health summary generated",completed,low,null,false,false,2024-01-23T08:00:00Z,2024-01-23T08:00:00Z

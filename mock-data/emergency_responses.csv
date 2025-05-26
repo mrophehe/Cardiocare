@@ -1,0 +1,4 @@
+id,user_id,response_type,recipient,message,status,external_id,sent_at,delivered_at,created_at
+1,1,whatsapp,+15559876543,"🚨 EMERGENCY ALERT 🚨 Patient: John Doe Alert: Critical Health Alert Details: Abnormal QRS complex detected Time: 2024-01-24 14:30:22",delivered,twilio_msg_123,2024-01-24T14:30:30Z,2024-01-24T14:30:45Z,2024-01-24T14:30:25Z
+2,1,whatsapp,+15551234567,"🚨 EMERGENCY ALERT 🚨 Patient: John Doe Alert: Critical Health Alert Details: Abnormal QRS complex detected Time: 2024-01-24 14:30:22",delivered,twilio_msg_124,2024-01-24T14:30:32Z,2024-01-24T14:30:47Z,2024-01-24T14:30:25Z
+3,1,voice_call,911,"Emergency call initiated for cardiac emergency",completed,twilio_call_125,2024-01-24T14:30:35Z,2024-01-24T14:30:40Z,2024-01-24T14:30:25Z

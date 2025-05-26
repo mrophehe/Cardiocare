@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import requests
 import json
 import logging
-from .models import HealthData, ECGReading, AIAnalysis, HealthAlert
+from .models import HealthData, ECGReading, AIAnalysis, HealthAlert, HealthHistoryMessage
 from .tasks import analyze_health_data
 
 logger = logging.getLogger(__name__)
@@ -45,7 +45,7 @@ def get_current_health_metrics(request):
                     'diastolic': latest_blood_pressure.value.get('diastolic', 90) if latest_blood_pressure else 90
                 },
                 'spo2': latest_spo2.value.get('percentage', 97) if latest_spo2 else 97,
-                'temperature': latest_temperature.value.get('celsius', 37.0) if latest_temperature else 98.6,
+                'temperature': latest_temperature.value.get('fahrenheit', 98.6) if latest_temperature else 98.6,
                 'riskLevel': 'High Risk'
             }
         else:
@@ -208,3 +208,104 @@ def get_health_alerts(request):
             {'error': 'Failed to get health alerts'}, 
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_health_history_messages(request):
+    """Get user's health history chat messages"""
+    try:
+        user = request.user
+        messages = HealthHistoryMessage.objects.filter(user=user).order_by('timestamp')
+        
+        message_data = []
+        for message in messages:
+            message_data.append({
+                'id': message.id,
+                'type': message.message_type,
+                'content': message.content,
+                'attachments': message.attachments,
+                'timestamp': message.timestamp.isoformat()
+            })
+        
+        return Response(message_data)
+        
+    except Exception as e:
+        logger.error(f"Error in get_health_history_messages: {str(e)}")
+        return Response(
+            {'error': 'Failed to get health history messages'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def send_health_history_message(request):
+    """Send a message in health history chat"""
+    try:
+        user = request.user
+        content = request.data.get('content', '')
+        attachments = request.data.get('attachments', [])
+        
+        if not content.strip() and not attachments:
+            return Response(
+                {'error': 'Message content or attachments required'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Create user message
+        user_message = HealthHistoryMessage.objects.create(
+            user=user,
+            message_type='user',
+            content=content,
+            attachments=attachments,
+            timestamp=timezone.now()
+        )
+        
+        # Generate AI response (simplified for demo)
+        ai_response_content = generate_ai_response(content, attachments)
+        
+        ai_message = HealthHistoryMessage.objects.create(
+            user=user,
+            message_type='ai',
+            content=ai_response_content,
+            attachments=[],
+            timestamp=timezone.now()
+        )
+        
+        return Response({
+            'user_message': {
+                'id': user_message.id,
+                'type': user_message.message_type,
+                'content': user_message.content,
+                'attachments': user_message.attachments,
+                'timestamp': user_message.timestamp.isoformat()
+            },
+            'ai_message': {
+                'id': ai_message.id,
+                'type': ai_message.message_type,
+                'content': ai_message.content,
+                'attachments': ai_message.attachments,
+                'timestamp': ai_message.timestamp.isoformat()
+            }
+        })
+        
+    except Exception as e:
+        logger.error(f"Error in send_health_history_message: {str(e)}")
+        return Response(
+            {'error': 'Failed to send message'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+def generate_ai_response(message, attachments):
+    """Generate AI response based on user message"""
+    lower_message = message.lower()
+    
+    if attachments:
+        return f"Thank you for uploading {len(attachments)} file(s). I've analyzed your documents and added them to your health profile. Based on this information and your current health data, I notice some patterns that might be relevant for your ongoing monitoring."
+    
+    if 'diabetes' in lower_message or 'blood sugar' in lower_message:
+        return "I understand you're sharing information about diabetes. This is very important for your health monitoring profile. Your blood glucose patterns will be tracked more closely, and AI analysis will factor in diabetes-related complications."
+    
+    if 'heart' in lower_message or 'cardiac' in lower_message:
+        return "Thank you for sharing your cardiac history. This is crucial information that I'll integrate with your real-time ECG monitoring. Your heart rhythm patterns will be compared against your historical baseline."
+    
+    return "Thank you for sharing that information. I've added it to your comprehensive health profile. This helps me provide more personalized monitoring and analysis."

@@ -3,9 +3,8 @@
 import { useEffect, useRef, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Activity, AlertTriangle, Database } from "lucide-react"
+import { Activity, AlertTriangle } from "lucide-react"
 import AIAnalysis from "@/components/ai-analysis"
-import { apiService } from "@/lib/api"
 
 interface ECGMonitorProps {
   healthData: {
@@ -14,18 +13,16 @@ interface ECGMonitorProps {
     spo2: number
   }
   user: any
-  backendConnected?: boolean
 }
 
-export default function ECGMonitor({ healthData, user, backendConnected = false }: ECGMonitorProps) {
+export default function ECGMonitor({ healthData, user }: ECGMonitorProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [ecgData, setEcgData] = useState<number[]>([])
   const [showAlert, setShowAlert] = useState(false)
-  const [submittingData, setSubmittingData] = useState(false)
 
-  // Generate ECG waveform data
+  // Generate realistic ECG waveform data
   useEffect(() => {
-    const generateECGData = async () => {
+    const generateECGData = () => {
       const newData = []
       for (let i = 0; i < 300; i++) {
         // Simulate ECG waveform with P, QRS, T waves
@@ -47,7 +44,7 @@ export default function ECGMonitor({ healthData, user, backendConnected = false 
           value = Math.sin(((cycle - 30) / 15) * Math.PI) * 0.6
         }
 
-        // Add some noise and variation
+        // Add realistic noise and variation
         value += (Math.random() - 0.5) * 0.1
 
         // Simulate abnormal QRS after 10 seconds
@@ -59,18 +56,6 @@ export default function ECGMonitor({ healthData, user, backendConnected = false 
       }
 
       setEcgData(newData)
-
-      // Submit ECG data to Django backend if connected
-      if (backendConnected && newData.length > 0) {
-        try {
-          setSubmittingData(true)
-          await apiService.submitECGData(newData, healthData.heartRate)
-        } catch (error) {
-          console.error("Error submitting ECG data:", error)
-        } finally {
-          setSubmittingData(false)
-        }
-      }
     }
 
     generateECGData()
@@ -85,7 +70,7 @@ export default function ECGMonitor({ healthData, user, backendConnected = false 
       clearInterval(interval)
       clearTimeout(alertTimeout)
     }
-  }, [healthData.heartRate, backendConnected])
+  }, [])
 
   // Draw ECG waveform
   useEffect(() => {
@@ -158,12 +143,6 @@ export default function ECGMonitor({ healthData, user, backendConnected = false 
                   Emergency Detected
                 </Badge>
               )}
-              {submittingData && (
-                <Badge variant="secondary" className="bg-blue-100 text-blue-800">
-                  <Database className="w-3 h-3 mr-1" />
-                  Syncing
-                </Badge>
-              )}
             </div>
           </div>
         </CardHeader>
@@ -176,23 +155,6 @@ export default function ECGMonitor({ healthData, user, backendConnected = false 
             />
           </div>
 
-          {/* Backend status indicator */}
-          <div
-            className={`mb-4 p-3 rounded-lg ${backendConnected ? "bg-green-50 border border-green-200" : "bg-yellow-50 border border-yellow-200"}`}
-          >
-            <div className="flex items-center space-x-2">
-              <Database className={`w-4 h-4 ${backendConnected ? "text-green-600" : "text-yellow-600"}`} />
-              <span className={`text-sm font-medium ${backendConnected ? "text-green-800" : "text-yellow-800"}`}>
-                {backendConnected ? "Connected to Django Backend" : "Using Demo Data (Backend Offline)"}
-              </span>
-            </div>
-            <p className={`text-xs mt-1 ${backendConnected ? "text-green-700" : "text-yellow-700"}`}>
-              {backendConnected
-                ? "ECG data being analyzed by OpenRouter AI and stored in PostgreSQL"
-                : "Start Django server at localhost:8000 to enable full backend features"}
-            </p>
-          </div>
-
           {showAlert && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4">
               <div className="flex items-center space-x-2 mb-2">
@@ -202,7 +164,7 @@ export default function ECGMonitor({ healthData, user, backendConnected = false 
               <p className="text-red-700 mb-2">Abnormal QRS complex indicating potential arrhythmia</p>
               <p className="text-red-600 mb-2">⚠️ Fall detected - Patient appears unconscious</p>
               <p className="text-sm text-red-600 mb-3">
-                CardioCare emergency system activated - contacts being notified via Twilio WhatsApp
+                CardioCare emergency system activated - contacts being notified via WhatsApp
                 <br />
                 Automatic ambulance call will be initiated in 30 seconds
               </p>
@@ -222,7 +184,7 @@ export default function ECGMonitor({ healthData, user, backendConnected = false 
         </CardContent>
       </Card>
 
-      <AIAnalysis healthData={healthData} backendConnected={backendConnected} />
+      <AIAnalysis healthData={healthData} />
     </div>
   )
 }

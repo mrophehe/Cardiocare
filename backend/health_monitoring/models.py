@@ -94,3 +94,19 @@ class HealthAlert(models.Model):
     
     class Meta:
         ordering = ['-created_at']
+
+class HealthHistoryMessage(models.Model):
+    MESSAGE_TYPES = [
+        ('user', 'User Message'),
+        ('ai', 'AI Response'),
+    ]
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='health_history_messages')
+    message_type = models.CharField(max_length=10, choices=MESSAGE_TYPES)
+    content = models.TextField()
+    attachments = models.JSONField(default=list)
+    timestamp = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['timestamp']

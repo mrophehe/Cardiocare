@@ -1,0 +1,9 @@
+id,user_id,name,phone,relationship,priority,is_active,created_at
+1,1,Dr. Sarah Johnson,+15551234567,doctor,1,true,2024-01-01T08:30:00Z
+2,1,Emergency Services,911,emergency,1,true,2024-01-01T08:30:00Z
+3,1,Jane Doe,+15559876543,spouse,2,true,2024-01-01T08:30:00Z
+4,1,Michael Doe,+15554567890,child,3,true,2024-01-01T08:30:00Z
+5,1,St. Mary's Hospital,+15552345678,hospital,2,true,2024-01-01T08:30:00Z
+6,2,Dr. Robert Wilson,+15551111111,doctor,1,true,2024-01-02T09:45:00Z
+7,2,Emergency Services,911,emergency,1,true,2024-01-02T09:45:00Z
+8,2,Tom Smith,+15552222222,spouse,2,true,2024-01-02T09:45:00Z

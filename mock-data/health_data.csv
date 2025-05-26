@@ -1,0 +1,11 @@
+id,user_id,data_type,value,unit,source,recorded_at,created_at
+1,1,heart_rate,"{""bpm"": 89}",bpm,google_fit,2024-01-24T14:30:00Z,2024-01-24T14:30:00Z
+2,1,blood_pressure,"{""systolic"": 140, ""diastolic"": 90}",mmHg,google_fit,2024-01-24T14:30:00Z,2024-01-24T14:30:00Z
+3,1,spo2,"{""percentage"": 97}",percent,google_fit,2024-01-24T14:30:00Z,2024-01-24T14:30:00Z
+4,1,temperature,"{""celsius"": 37.0, ""fahrenheit"": 98.6}",celsius,google_fit,2024-01-24T14:30:00Z,2024-01-24T14:30:00Z
+5,1,heart_rate,"{""bpm"": 92}",bpm,google_fit,2024-01-24T14:25:00Z,2024-01-24T14:25:00Z
+6,1,heart_rate,"{""bpm"": 87}",bpm,google_fit,2024-01-24T14:20:00Z,2024-01-24T14:20:00Z
+7,2,heart_rate,"{""bpm"": 75}",bpm,apple_health,2024-01-24T14:30:00Z,2024-01-24T14:30:00Z
+8,2,blood_pressure,"{""systolic"": 120, ""diastolic"": 80}",mmHg,apple_health,2024-01-24T14:30:00Z,2024-01-24T14:30:00Z
+9,3,heart_rate,"{""bpm"": 95}",bpm,google_fit,2024-01-24T14:30:00Z,2024-01-24T14:30:00Z
+10,4,heart_rate,"{""bpm"": 68}",bpm,apple_health,2024-01-24T14:30:00Z,2024-01-24T14:30:00Z

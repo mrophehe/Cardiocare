@@ -1,0 +1,5 @@
+id,email,name,first_name,last_name,provider,provider_id,date_of_birth,gender,height,weight,emergency_auto_call,emergency_whatsapp,emergency_ai_voice,created_at
+1,john.doe@example.com,John Doe,John,Doe,google_fit,google_123456,1985-03-15,male,175.5,78.2,true,true,true,2024-01-01T08:00:00Z
+2,jane.smith@example.com,Jane Smith,Jane,Smith,apple_health,apple_789012,1990-07-22,female,162.0,65.8,true,true,false,2024-01-02T09:30:00Z
+3,mike.johnson@example.com,Mike Johnson,Mike,Johnson,google_fit,google_345678,1978-11-08,male,180.2,85.4,false,true,true,2024-01-03T14:15:00Z
+4,sarah.wilson@example.com,Sarah Wilson,Sarah,Wilson,apple_health,apple_456789,1992-05-12,female,168.0,62.5,true,false,true,2024-01-04T11:20:00Z
